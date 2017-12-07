@@ -9,7 +9,7 @@
 
 | Component | Build Status | NuGet Package |
 |:-|---|---|
-| Class Libraries | [![Build status](https://ci.appveyor.com/api/projects/status/terbqvfdlw8po3cm?svg=true)](https://ci.appveyor.com/project/nfbot/nf-class-libraries) | [![NuGet](https://img.shields.io/nuget/dt/nanoFramework.Windows.Devices.Spi.svg)]() |
+| Class Libraries | [![Build status](https://ci.appveyor.com/api/projects/status/6v5nkr5iyv3i35uw?svg=true)](https://ci.appveyor.com/project/nfbot/lib-windows-devices-spi) | [![NuGet](https://img.shields.io/nuget/dt/nanoFramework.Windows.Devices.Spi.svg)](https://www.nuget.org/packages/nanoFramework.Windows.Devices.Spi) |
 
 
 ## Feedback and documentation
