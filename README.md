@@ -4,12 +4,15 @@
 
 ### Welcome to the **nanoFramework** Windows.Devices.Spi Library repository!
 
+[![NuGet](https://img.shields.io/nuget/dt/nanoFramework.Windows.Devices.Spi.svg)]() [![#yourfirstpr](https://img.shields.io/badge/first--timers--only-friendly-blue.svg)](https://github.com/nanoframework/Home/blob/master/CONTRIBUTING.md)
 
 ## Build status
 
+
 | Component | Build Status | NuGet Package |
 |:-|---|---|
-| Class Libraries | [![Build status](https://ci.appveyor.com/api/projects/status/6v5nkr5iyv3i35uw?svg=true)](https://ci.appveyor.com/project/nfbot/lib-windows-devices-spi) | [![NuGet](https://img.shields.io/nuget/dt/nanoFramework.Windows.Devices.Spi.svg)](https://www.nuget.org/packages/nanoFramework.Windows.Devices.Spi) |
+| Windows.Devices.Spi | [![Build status](https://ci.appveyor.com/api/projects/status/6v5nkr5iyv3i35uw?svg=true)](https://ci.appveyor.com/project/nfbot/lib-windows-devices-spi) | [![NuGet](https://img.shields.io/nuget/vpre/nanoFramework.Windows.Devices.Spi.svg)](https://www.nuget.org/packages/nanoFramework.Windows.Devices.Spi/)  |
+| Windows.Devices.Spi (preview) | [![Build status](https://ci.appveyor.com/api/projects/status/6v5nkr5iyv3i35uw/branch/develop?svg=true)](https://ci.appveyor.com/project/nfbot/lib-windows-devices-spi/branch/develop) | [![MyGet Pre Release](https://img.shields.io/myget/nanoframework-dev/vpre/nanoFramework.Windows.Devices.Spi.svg)](https://www.myget.org/feed/nanoframework-dev/package/nuget/nanoFramework.Windows.Devices.Spi) |
 
 
 ## Feedback and documentation
