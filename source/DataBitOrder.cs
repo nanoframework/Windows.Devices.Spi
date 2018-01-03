@@ -6,7 +6,7 @@
 namespace Windows.Devices.Spi
 {
     /// <summary>
-    /// Defines the bit order of the data in the buffer to be transmited/received to/from the SPI bus.
+    /// Defines the bit order of the data in the buffer to be transmitted/received to/from the SPI bus.
     /// </summary>
     /// <remarks>This enum is specific to nanoFramework. Doesn't have correspondence in the UWP API.</remarks>
     public enum DataBitOrder
