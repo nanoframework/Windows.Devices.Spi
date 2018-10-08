@@ -5,13 +5,14 @@
 **Implemented enhancements:**
 
 - Update snk to match mscorlib [\#12](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/12)
-- Update mscorlib Nuget package [\#3](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/3)
 - Update project [\#1](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/1)
 
 **Documentation and other chores:**
 
+- Bumps nanoFramework.CoreLibrary from 1.0.1-preview118 to 1.0.1-preview123 [\#17](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/17)
 - 📦 Bumps nanoFramework.CoreLibrary from 1.0.1-preview106 to 1.0.1-preview118 [\#16](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/16)
 - Bump nanoFramework.CoreLibrary from 1.0.0-preview062 to 1.0.0-preview073 in /source [\#11](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/11)
+- Update mscorlib Nuget package [\#3](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/3)
 
 
 
