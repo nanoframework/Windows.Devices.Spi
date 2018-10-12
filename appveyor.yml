@@ -143,6 +143,7 @@ for:
     only:
       - /release.*/
 
+  deploy:
   - provider: GitHub
     tag: v$(GitVersion_NuGetVersionV2)
     release: nanoFramework Windows.Devices.Spi Library v$(gitversion_semver)
