@@ -135,8 +135,8 @@ for:
 
   after_deploy:
   # for this environment variable to work here it has to be set in AppVeyor UI
-  - nuget push source\Nuget.nanoFramework.Windows.Devices.Spi\bin\Release\nanoFramework.Windows.Devices.Spi.%GitVersion_NuGetVersionV2%.nupkg %MyGetToken% -Source https://www.myget.org/F/nanoframework-dev/api/v2/package
-  - nuget push source\Nuget.nanoFramework.Windows.Devices.Spi.DELIVERABLES\bin\Release\nanoFramework.Windows.Devices.Spi.DELIVERABLES.%GitVersion_NuGetVersionV2%.nupkg %MyGetToken% -Source https://www.myget.org/F/nanoframework-dev/api/v2/package
+  - nuget push source\Nuget.Windows.Devices.Spi\bin\Release\nanoFramework.Windows.Devices.Spi.%GitVersion_NuGetVersionV2%.nupkg %MyGetToken% -Source https://www.myget.org/F/nanoframework-dev/api/v2/package
+  - nuget push source\Nuget.Windows.Devices.Spi.DELIVERABLES\bin\Release\nanoFramework.Windows.Devices.Spi.DELIVERABLES.%GitVersion_NuGetVersionV2%.nupkg %MyGetToken% -Source https://www.myget.org/F/nanoframework-dev/api/v2/package
 
 -
   branches:
@@ -157,5 +157,5 @@ for:
 
   after_deploy:
   # for this environment variable to work here it has to be set in AppVeyor UI
-  - nuget push source\Nuget.nanoFramework.Windows.Devices.Spi\bin\Release\nanoFramework.Windows.Devices.Spi.%GitVersion_NuGetVersionV2%.nupkg %MyGetToken% -Source https://www.myget.org/F/nanoframework-dev/api/v2/package
-  - nuget push source\Nuget.nanoFramework.Windows.Devices.Spi.DELIVERABLES\bin\Release\nanoFramework.Windows.Devices.Spi.DELIVERABLES.%GitVersion_NuGetVersionV2%.nupkg %MyGetToken% -Source https://www.myget.org/F/nanoframework-dev/api/v2/package
+  - nuget push source\Nuget.Windows.Devices.Spi\bin\Release\nanoFramework.Windows.Devices.Spi.%GitVersion_NuGetVersionV2%.nupkg %MyGetToken% -Source https://www.myget.org/F/nanoframework-dev/api/v2/package
+  - nuget push source\Nuget.Windows.Devices.Spi.DELIVERABLES\bin\Release\nanoFramework.Windows.Devices.Spi.DELIVERABLES.%GitVersion_NuGetVersionV2%.nupkg %MyGetToken% -Source https://www.myget.org/F/nanoframework-dev/api/v2/package
