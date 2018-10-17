@@ -1,7 +1,6 @@
 # Change Log
 
-## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/HEAD)
-
+## [v1.0.0](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.0.0) (2018-10-17)
 **Implemented enhancements:**
 
 - Update snk to match mscorlib [\#12](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/12)
@@ -9,6 +8,9 @@
 
 **Documentation and other chores:**
 
+- merge back changes from Release 1.0.0 branch [\#23](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/23)
+- Merge 'develop' for Release 1.0.0 [\#22](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/22)
+- Bumps nanoFramework.CoreLibrary from 1.0.1-preview134 to 1.0.4 [\#21](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/21)
 - Bumps nanoFramework.CoreLibrary from 1.0.1-preview127 to 1.0.1-preview134 [\#19](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/19)
 - Bumps nanoFramework.CoreLibrary from 1.0.1-preview123 to 1.0.1-preview127 [\#18](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/18)
 - Bumps nanoFramework.CoreLibrary from 1.0.1-preview118 to 1.0.1-preview123 [\#17](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/17)
