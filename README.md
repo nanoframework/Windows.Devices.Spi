@@ -13,7 +13,7 @@
 
 | Component | Build Status | NuGet Package |
 |:-|---|---|
-| Windows.Devices.Spi | [![Build status](https://ci.appveyor.com/api/projects/status/6v5nkr5iyv3i35uw/branch/master?svg=true)](https://ci.appveyor.com/project/nfbot/lib-windows-devices-spi/branch/master) | [![NuGet](https://img.shields.io/nuget/vpre/nanoFramework.Windows.Devices.Spi.svg)](https://www.nuget.org/packages/nanoFramework.Windows.Devices.Spi/)  |
+| Windows.Devices.Spi | [![Build status](https://ci.appveyor.com/api/projects/status/6v5nkr5iyv3i35uw/branch/master?svg=true)](https://ci.appveyor.com/project/nfbot/lib-windows-devices-spi/branch/master) | [![NuGet](https://img.shields.io/nuget/v/nanoFramework.Windows.Devices.Spi.svg)](https://www.nuget.org/packages/nanoFramework.Windows.Devices.Spi/)  |
 | Windows.Devices.Spi (preview) | [![Build status](https://ci.appveyor.com/api/projects/status/6v5nkr5iyv3i35uw/branch/develop?svg=true)](https://ci.appveyor.com/project/nfbot/lib-windows-devices-spi/branch/develop) | [![MyGet Pre Release](https://img.shields.io/myget/nanoframework-dev/vpre/nanoFramework.Windows.Devices.Spi.svg)](https://www.myget.org/feed/nanoframework-dev/package/nuget/nanoFramework.Windows.Devices.Spi) |
 
 
