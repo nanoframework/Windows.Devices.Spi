@@ -39,7 +39,7 @@ namespace Windows.Devices.Spi
             var deviceId = (spiBus[3] - 48) * 1000 + settings.ChipSelectLine;
 
             // check if this device ID already exists
-            if (!SpiController.s_deviceCollection.Contains(deviceId))
+            if (!SpiController.DeviceCollection.Contains(deviceId))
             {
                 _spiBus = spiBus;
                 _connectionSettings = new SpiConnectionSettings(settings);
@@ -50,7 +50,7 @@ namespace Windows.Devices.Spi
                 NativeInit();
 
                 // add to device collection
-                SpiController.s_deviceCollection.Add(deviceId, this);
+                SpiController.DeviceCollection.Add(deviceId, this);
             }
             else
             {
@@ -231,7 +231,7 @@ namespace Windows.Devices.Spi
                 if (disposing)
                 {
                     // remove from device collection
-                    SpiController.s_deviceCollection.Remove(_deviceId);
+                    SpiController.DeviceCollection.Remove(_deviceId);
                 }
 
                 DisposeNative();
