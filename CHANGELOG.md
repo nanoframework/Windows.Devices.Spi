@@ -2,7 +2,14 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.0.0...HEAD)
+[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.0.2-preview-004...HEAD)
+
+**Implemented enhancements:**
+
+- Add lazy initialization to SpiController [\#28](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/28)
+
+## [v1.0.2-preview-004](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.0.2-preview-004) (2018-11-08)
+[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.0.0...v1.0.2-preview-004)
 
 **Documentation and other chores:**
 
