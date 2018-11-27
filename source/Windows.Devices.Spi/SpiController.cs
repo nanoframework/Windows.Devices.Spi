@@ -3,7 +3,9 @@
 // See LICENSE file in the project root for full license information.
 //
 
+using System;
 using System.Collections;
+using System.Runtime.CompilerServices;
 
 namespace Windows.Devices.Spi
 {
@@ -13,15 +15,16 @@ namespace Windows.Devices.Spi
     public sealed class SpiController
     {
         // this is used as the lock object 
-        // a lock is required because multiple threads can access the I2C controller
-        readonly static object _syncLock = new object();
+        // a lock is required because multiple threads can access the SpiController
+        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+        private readonly object _syncLock = new object();
 
-        // we can have only one instance of the SpiController
-        // need to do a lazy initialization of this field to make sure it exists when called elsewhere.
-        private static SpiController s_instance;
+        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+        private readonly int _controllerId;
 
         // backing field for DeviceCollection
-        private static Hashtable s_deviceCollection;
+        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+        private Hashtable s_deviceCollection;
 
         /// <summary>
         /// Device collection associated with this <see cref="SpiController"/>.
@@ -29,7 +32,7 @@ namespace Windows.Devices.Spi
         /// <remarks>
         /// This collection is for internal use only.
         /// </remarks>
-        internal static Hashtable DeviceCollection
+        internal Hashtable DeviceCollection
         {
             get
             {
@@ -53,24 +56,50 @@ namespace Windows.Devices.Spi
             }
         }
 
+        internal SpiController(string controller)
+        {
+            // check if this controller is already opened
+            if (!SpiControllerManager.ControllersCollection.Contains(controller))
+            {
+                // the SPI id is an ASCII string with the format 'Spin'
+                // need to grab 'n' from the string and convert that to the integer value from the ASCII code (do this by subtracting 48 from the char value)
+                _controllerId = controller[3] - '0';
+
+                // add controller to collection, with the ID as key (just the index number)
+                SpiControllerManager.ControllersCollection.Add(_controllerId, this);
+            }
+            else
+            {
+                // this controller already exists: throw an exception
+                throw new ArgumentException();
+            }
+        }
+
         /// <summary>
         /// Gets the default SPI controller on the system.
         /// </summary>
         /// <returns>The default SPI controller on the system, or null if the system has no SPI controller.</returns>
         public static SpiController GetDefault()
         {
-            if (s_instance == null)
+            string controllersAqs = GetDeviceSelector();
+            string[] controllers = controllersAqs.Split(',');
+
+            if (controllers.Length > 0)
             {
-                lock (_syncLock)
+                if (SpiControllerManager.ControllersCollection.Contains(controllers[0]))
                 {
-                    if (s_instance == null)
-                    {
-                        s_instance = new SpiController();
-                    }
+                    // controller is already open
+                    return (SpiController)SpiControllerManager.ControllersCollection[controllers[0]];
+                }
+                else
+                {
+                    // this controller is not in the collection, create it
+                    return new SpiController(controllers[0]);
                 }
             }
 
-            return s_instance;
+            // the system has no SPI controller 
+            return null;
         }
 
         /// <summary>
@@ -81,7 +110,14 @@ namespace Windows.Devices.Spi
         public SpiDevice GetDevice(Spi​Connection​Settings settings)
         {
             //TODO: fix return value. Should return an existing device (if any)
-            return new SpiDevice(string.Empty, settings);
+            return new SpiDevice(String.Empty, settings);
         }
+
+        #region Native Calls
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        internal static extern string GetDeviceSelector();
+
+        #endregion
     }
 }

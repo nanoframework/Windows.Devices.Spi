@@ -53,6 +53,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ISpiDeviceStatics.cs" />
     <Compile Include="DataBitOrder.cs" />
+    <Compile Include="SpiControllerManager.cs" />
     <Compile Include="Spi​Connection​Settings.cs" />
     <Compile Include="SpiBusInfo.cs" />
     <Compile Include="SpiController.cs" />
