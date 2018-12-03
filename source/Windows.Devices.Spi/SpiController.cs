@@ -58,14 +58,16 @@ namespace Windows.Devices.Spi
 
         internal SpiController(string controller)
         {
-            // check if this controller is already opened
-            if (!SpiControllerManager.ControllersCollection.Contains(controller))
-            {
-                // the SPI id is an ASCII string with the format 'Spin'
-                // need to grab 'n' from the string and convert that to the integer value from the ASCII code (do this by subtracting 48 from the char value)
-                _controllerId = controller[3] - '0';
+            // the SPI id is an ASCII string with the format 'SPIn'
+            // need to grab 'n' from the string and convert that to the integer value from the ASCII code (do this by subtracting 48 from the char value)
+            _controllerId = controller[3] - '0';
 
-                // add controller to collection, with the ID as key (just the index number)
+            // check if this controller is already opened
+            if (!SpiControllerManager.ControllersCollection.Contains(_controllerId))
+            {
+
+                // add controller to collection, with the ID as key 
+                // *** just the index number ***
                 SpiControllerManager.ControllersCollection.Add(_controllerId, this);
             }
             else
@@ -86,10 +88,14 @@ namespace Windows.Devices.Spi
 
             if (controllers.Length > 0)
             {
-                if (SpiControllerManager.ControllersCollection.Contains(controllers[0]))
+                // the SPI id is an ASCII string with the format 'SPIn'
+                // need to grab 'n' from the string and convert that to the integer value from the ASCII code (do this by subtracting 48 from the char value)
+                var controllerId = controllers[0][3] - '0';
+
+                if (SpiControllerManager.ControllersCollection.Contains(controllerId))
                 {
                     // controller is already open
-                    return (SpiController)SpiControllerManager.ControllersCollection[controllers[0]];
+                    return (SpiController)SpiControllerManager.ControllersCollection[controllerId];
                 }
                 else
                 {
