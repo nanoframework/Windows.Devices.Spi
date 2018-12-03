@@ -1,5 +1,12 @@
 # Change Log
 
+## [v1.0.2-preview-019](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.0.2-preview-019) (2018-12-03)
+[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.0.2-preview-017...v1.0.2-preview-019)
+
+**Fixed bugs:**
+
+- Fix bug with controller search and indexing [\#35](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/35)
+
 ## [v1.0.2-preview-017](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.0.2-preview-017) (2018-11-30)
 [Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.0.2-preview-015...v1.0.2-preview-017)
 
