@@ -1,11 +1,19 @@
 # Change Log
 
-## [v1.0.2-preview-022](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.0.2-preview-022) (2018-12-14)
-[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.0.2-preview-019...v1.0.2-preview-022)
+## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/HEAD)
 
-## [v1.0.0](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.0.0) (2018-10-17)
+[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.1.0...HEAD)
+
 **Documentation and other chores:**
 
+- Merge back from Release v1.1.0 [\#38](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/38)
+
+## [v1.1.0](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.1.0) (2018-12-14)
+[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.0.2-preview-019...v1.1.0)
+
+**Documentation and other chores:**
+
+- Release v1.1.0 [\#37](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/37)
 - Bumps nanoFramework.CoreLibrary from 1.0.6-preview-021 to 1.1.0 [\#36](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/36)
 
 ## [v1.0.2-preview-019](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.0.2-preview-019) (2018-12-03)
