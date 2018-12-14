@@ -13,21 +13,23 @@ namespace Windows.Devices.Spi
     /// </summary>
     public sealed class SpiDevice : IDisposable
     {
+        // generate a unique ID for the device by joining the SPI bus ID and the chip select line, should be pretty unique
+        // the encoding is (SPI bus number x 1000 + chip select line number)
+        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+        private const int deviceUniqueIdMultiplier = 1000;
+
         // this is used as the lock object 
-        // a lock is required because multiple threads can access the SPI bus
-        private object _syncLock = new object();
+        // a lock is required because multiple threads can access the device
+        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+        private readonly object _syncLock = new object();
 
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern void NativeTransfer(byte[] writeBuffer, byte[] readBuffer, bool fullDuplex);
-
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern void NativeTransfer(ushort[] writeBuffer, ushort[] readBuffer, bool fullDuplex);
-
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern void NativeInit();
-
+        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         private readonly string _spiBus;
+
+        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         private readonly int _deviceId;
+
+        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         private readonly Spi​Connection​Settings _connectionSettings;
 
         internal SpiDevice(string spiBus, Spi​Connection​Settings settings)
@@ -36,26 +38,41 @@ namespace Windows.Devices.Spi
             // the encoding is (SPI bus number x 1000 + chip select line number)
             // spiBus is an ASCII string with the bus name in format 'SPIn'
             // need to grab 'n' from the string and convert that to the integer value from the ASCII code (do this by subtracting 48 from the char value)
-            var deviceId = (spiBus[3] - 48) * 1000 + settings.ChipSelectLine;
+            var controllerId = spiBus[3] - '0';
+            var deviceId = (controllerId * deviceUniqueIdMultiplier) + settings.ChipSelectLine;
+
+            SpiController controller;
+
+            if (!SpiControllerManager.ControllersCollection.Contains(controllerId))
+            {
+                // this controller doesn't exist yet, create it...
+                controller = new SpiController(spiBus);
+            }
+            else
+            {
+                // get the controller from the collection...
+                controller = (SpiController)SpiControllerManager.ControllersCollection[controllerId];
+            }
 
             // check if this device ID already exists
-            if (!SpiController.s_deviceCollection.Contains(deviceId))
+            if (!controller.DeviceCollection.Contains(deviceId))
             {
-                _spiBus = spiBus;
+                // device doesn't exist, create it...
                 _connectionSettings = new SpiConnectionSettings(settings);
 
                 // save device ID
                 _deviceId = deviceId;
 
+                // call native init to allow HAL/PAL inits related with Spi hardware
                 NativeInit();
 
-                // add to device collection
-                SpiController.s_deviceCollection.Add(deviceId, this);
+                // ... and add this device
+                controller.DeviceCollection.Add(deviceId, this);
             }
             else
             {
-                // this device already exists throw an exception
-                throw new ArgumentException();
+                // this device already exists, throw an exception
+                throw new SpiDeviceAlreadyInUseException();
             }
         }
 
@@ -125,13 +142,6 @@ namespace Windows.Devices.Spi
         {
             return new SpiBusInfo(busId);
         }
-
-        /// <summary>
-        /// Gets all the SPI buses found on the system.
-        /// </summary>
-        /// <returns>String containing all the buses found on the system.</returns>
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        public static extern string GetDeviceSelector();
 
         /// <summary>
         /// Gets all the SPI buses found on the system that match the input parameter.
@@ -220,6 +230,15 @@ namespace Windows.Devices.Spi
             NativeTransfer(buffer, null, false);
         }
 
+        /// <summary>
+        /// Gets all the SPI buses found on the system.
+        /// </summary>
+        /// <returns>String containing all the buses found on the system.</returns>
+        public static string GetDeviceSelector()
+        {
+            return SpiController.GetDeviceSelector();
+        }
+
         #region IDisposable Support
 
         private bool _disposedValue;
@@ -230,8 +249,20 @@ namespace Windows.Devices.Spi
             {
                 if (disposing)
                 {
+                    // get the controller Id
+                    // it's enough to divide by the device unique id multiplier as we'll get the thousands digit, which is the controller ID
+                    var controller = (SpiController)SpiControllerManager.ControllersCollection[_deviceId / deviceUniqueIdMultiplier];
+
                     // remove from device collection
-                    SpiController.s_deviceCollection.Remove(_deviceId);
+                    controller.DeviceCollection.Remove(_deviceId);
+
+                    // it's OK to also remove the controller, if there is no other device associated
+                    if (controller.DeviceCollection.Count == 0)
+                    {
+                        SpiControllerManager.ControllersCollection.Remove(controller);
+
+                        controller = null;
+                    }
                 }
 
                 DisposeNative();
@@ -239,9 +270,6 @@ namespace Windows.Devices.Spi
                 _disposedValue = true;
             }
         }
-
-        [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern void DisposeNative();
 
         #pragma warning disable 1591
         ~SpiDevice()
@@ -262,7 +290,39 @@ namespace Windows.Devices.Spi
             }
         }
 
+        #pragma warning restore 1591
+
         #endregion
 
+        #region Native Calls
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern void DisposeNative();
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern void NativeTransfer(byte[] writeBuffer, byte[] readBuffer, bool fullDuplex);
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern void NativeTransfer(ushort[] writeBuffer, ushort[] readBuffer, bool fullDuplex);
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern void NativeInit();
+
+        #endregion
+    }
+
+    /// <summary>
+    /// Exception thrown when a check in driver's constructor finds a device that already exists with the same settings (SPI bus AND chip select line)
+    /// </summary>
+    [Serializable]
+    public class SpiDeviceAlreadyInUseException : Exception
+    {
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        public override string ToString() { return base.Message; }
     }
 }

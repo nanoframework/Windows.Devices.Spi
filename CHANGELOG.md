@@ -1,5 +1,56 @@
 # Change Log
 
+## [v1.0.2-preview-022](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.0.2-preview-022) (2018-12-14)
+[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.0.2-preview-019...v1.0.2-preview-022)
+
+## [v1.0.0](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.0.0) (2018-10-17)
+**Documentation and other chores:**
+
+- Bumps nanoFramework.CoreLibrary from 1.0.6-preview-021 to 1.1.0 [\#36](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/36)
+
+## [v1.0.2-preview-019](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.0.2-preview-019) (2018-12-03)
+[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.0.2-preview-017...v1.0.2-preview-019)
+
+**Fixed bugs:**
+
+- Fix bug with controller search and indexing [\#35](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/35)
+
+## [v1.0.2-preview-017](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.0.2-preview-017) (2018-11-30)
+[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.0.2-preview-015...v1.0.2-preview-017)
+
+**Documentation and other chores:**
+
+- Bumps nanoFramework.CoreLibrary from 1.0.6-preview-010 to 1.0.6-preview-021 [\#34](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/34)
+
+## [v1.0.2-preview-015](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.0.2-preview-015) (2018-11-27)
+[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.0.2-preview-011...v1.0.2-preview-015)
+
+**Implemented enhancements:**
+
+- Rework SpiController and SpiDevice [\#31](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/31)
+
+## [v1.0.2-preview-011](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.0.2-preview-011) (2018-11-19)
+[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.0.2-preview-007...v1.0.2-preview-011)
+
+**Documentation and other chores:**
+
+- Bumps nanoFramework.CoreLibrary from 1.0.6-preview-001 to 1.0.6-preview-010 [\#29](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/29)
+
+## [v1.0.2-preview-007](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.0.2-preview-007) (2018-11-09)
+[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.0.2-preview-004...v1.0.2-preview-007)
+
+**Implemented enhancements:**
+
+- Add lazy initialization to SpiController [\#28](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/28)
+
+## [v1.0.2-preview-004](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.0.2-preview-004) (2018-11-08)
+[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.0.0...v1.0.2-preview-004)
+
+**Documentation and other chores:**
+
+- Bumps nanoFramework.CoreLibrary from 1.0.5-preview024 to 1.0.6-preview-001 [\#27](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/27)
+- Bumps nanoFramework.CoreLibrary from 1.0.4 to 1.0.5-preview024 [\#25](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/25)
+
 ## [v1.0.0](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.0.0) (2018-10-17)
 **Implemented enhancements:**
 

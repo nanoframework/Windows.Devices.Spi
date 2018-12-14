@@ -17,7 +17,9 @@ namespace Windows.Devices.Spi
             ChipSelectLineCount = 1;
         }
 
-        private int _ChipSelectLineCount;
+        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+        private int _chipSelectLineCount;
+
         /// <summary>
         /// Gets the number of chip select lines available on the bus.
         /// </summary>
@@ -26,8 +28,8 @@ namespace Windows.Devices.Spi
         /// </value>
         public int ChipSelectLineCount
         {
-            get { return _ChipSelectLineCount; }
-            set { _ChipSelectLineCount = value; }
+            get { return _chipSelectLineCount; }
+            set { _chipSelectLineCount = value; }
         }
 
         /// <summary>
