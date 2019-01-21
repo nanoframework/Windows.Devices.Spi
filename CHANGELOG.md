@@ -12,6 +12,7 @@
 ## [v1.1.0](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.1.0) (2018-12-14)
 [Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.0.2-preview-019...v1.1.0)
 
+## [v1.0.0](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.0.0) (2018-10-17)
 **Documentation and other chores:**
 
 - Release v1.1.0 [\#37](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/37)
