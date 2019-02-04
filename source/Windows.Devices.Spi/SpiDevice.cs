@@ -21,7 +21,7 @@ namespace Windows.Devices.Spi
         // this is used as the lock object 
         // a lock is required because multiple threads can access the device
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-        private readonly object _syncLock = new object();
+        private object _syncLock;
 
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         private readonly string _spiBus;
@@ -68,6 +68,8 @@ namespace Windows.Devices.Spi
 
                 // ... and add this device
                 controller.DeviceCollection.Add(deviceId, this);
+
+                _syncLock = new object();
             }
             else
             {
