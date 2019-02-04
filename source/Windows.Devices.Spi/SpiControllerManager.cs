@@ -9,7 +9,7 @@ namespace Windows.Devices.Spi
 {
     internal sealed class SpiControllerManager
     {
-        private static readonly object _syncLock = new object();
+        private static object s_syncLock;
 
         // backing field for ControllersCollection
         // to store the controllers that are open
@@ -27,7 +27,12 @@ namespace Windows.Devices.Spi
             {
                 if (s_controllersCollection == null)
                 {
-                    lock (_syncLock)
+                    if (s_syncLock == null)
+                    {
+                        s_syncLock = new object();
+                    }
+
+                    lock (s_syncLock)
                     {
                         if (s_controllersCollection == null)
                         {
