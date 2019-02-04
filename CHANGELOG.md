@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.1.2...HEAD)
 
+**Implemented enhancements:**
+
+- Static field objects are now created on constructor. [\#42](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/42)
+
 **Documentation and other chores:**
 
 - Merge back from Release v1.1.2 [\#41](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/41)
