@@ -7,3 +7,9 @@
 [assembly: AssemblyCompany("nanoFramework Contributors")]
 [assembly: AssemblyProduct("Windows.Devices.Spi")]
 [assembly: AssemblyCopyright("Copyright © nanoFramework Contributors 2017")]
+
+////////////////////////////////////////////////////////////////
+// update this whenever the native assembly signature changes //
+[assembly: AssemblyNativeVersion("1.1.3.0")]
+////////////////////////////////////////////////////////////////
+
