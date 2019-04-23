@@ -6,6 +6,7 @@
 
 **Documentation and other chores:**
 
+- Bumps nanoFramework.CoreLibrary from 1.2.0 to 1.2.1-preview-001 [\#44](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/44)
 - Bumps nanoFramework.CoreLibrary from 1.1.1 to 1.2.0 [\#43](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/43)
 
 ## [v1.1.3-preview-005](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.1.3-preview-005) (2019-02-04)
