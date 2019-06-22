@@ -2,7 +2,14 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.1.4-preview.6...HEAD)
+[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.1.4-preview.9...HEAD)
+
+**Documentation and other chores:**
+
+- Work on native assembly declaration [\#51](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/51) [[Breaking-Change](https://github.com/nanoframework/lib-Windows.Devices.Spi/labels/Breaking-Change)]
+
+## [v1.1.4-preview.9](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.1.4-preview.9) (2019-06-20)
+[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.1.4-preview.6...v1.1.4-preview.9)
 
 **Documentation and other chores:**
 
