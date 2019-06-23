@@ -6,6 +6,7 @@
 
 **Documentation and other chores:**
 
+- Bumps nanoFramework.CoreLibrary from 1.2.6-preview.1 to 1.2.6-preview.7 [\#53](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/53)
 - Work on native assembly declaration [\#51](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/51) [[Breaking-Change](https://github.com/nanoframework/lib-Windows.Devices.Spi/labels/Breaking-Change)]
 
 ## [v1.1.4-preview.9](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.1.4-preview.9) (2019-06-20)
