@@ -11,11 +11,23 @@ namespace Windows.Devices.Spi
     public sealed class Spi​Connection​Settings
     {
         private int _csLine;
-        private int _clockFrequency;
-        private int _databitLength;
-        private SpiMode _spiMode;
+        /// <summary>
+        /// Default clock frequency of 1mhz if not specified
+        /// </summary>
+        private int _clockFrequency = 1 * 1000 * 1000;
+        /// <summary>
+        /// Default data bit length should be 8. Typically it would be either 8 or 16
+        /// </summary>
+        private int _databitLength = 8; 
+        /// <summary>
+        /// Default SPI mode is Mode0 which is supported for the majority of devices
+        /// </summary>
+        private SpiMode _spiMode = SpiMode.Mode0;
         private SpiSharingMode _spiSharingMode;
-        private DataBitOrder _bitOrder;
+        /// <summary>
+        /// Default bit order as MSB, which is typical for most devices
+        /// </summary>
+        private DataBitOrder _bitOrder = DataBitOrder.MSB;
 
         /// <summary>
         /// Initializes new instance of SpiConnectionSettings.
