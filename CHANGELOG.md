@@ -2,7 +2,14 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.1.4-preview.9...HEAD)
+[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.1.4-preview.14...HEAD)
+
+**Documentation and other chores:**
+
+- Added Defaults to SpiConnectionSettings [\#54](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/54) [[Breaking-Change](https://github.com/nanoframework/lib-Windows.Devices.Spi/labels/Breaking-Change)]
+
+## [v1.1.4-preview.14](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.1.4-preview.14) (2019-06-23)
+[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.1.4-preview.9...v1.1.4-preview.14)
 
 **Documentation and other chores:**
 
