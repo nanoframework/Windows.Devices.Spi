@@ -2,7 +2,15 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.1.4-preview.14...HEAD)
+[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.1.4-preview.16...HEAD)
+
+**Documentation and other chores:**
+
+- Bumps nanoFramework.CoreLibrary from 1.2.6-preview.7 to 1.2.6-preview.16 [\#56](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/56)
+- Update readme.txt [\#55](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/55)
+
+## [v1.1.4-preview.16](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.1.4-preview.16) (2019-07-02)
+[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.1.4-preview.14...v1.1.4-preview.16)
 
 **Documentation and other chores:**
 
