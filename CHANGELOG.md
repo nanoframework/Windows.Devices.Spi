@@ -1,8 +1,7 @@
 # Change Log
 
-## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/HEAD)
-
-[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.1.4-preview.16...HEAD)
+## [v1.1.4-preview.19](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.1.4-preview.19) (2019-07-18)
+[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.1.4-preview.16...v1.1.4-preview.19)
 
 **Documentation and other chores:**
 
