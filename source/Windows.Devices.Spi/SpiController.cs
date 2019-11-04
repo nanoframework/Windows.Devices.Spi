@@ -24,7 +24,7 @@ namespace Windows.Devices.Spi
 
         // backing field for DeviceCollection
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-        private Hashtable s_deviceCollection;
+        private ArrayList s_deviceCollection;
 
         /// <summary>
         /// Device collection associated with this <see cref="SpiController"/>.
@@ -32,7 +32,7 @@ namespace Windows.Devices.Spi
         /// <remarks>
         /// This collection is for internal use only.
         /// </remarks>
-        internal Hashtable DeviceCollection
+        internal ArrayList DeviceCollection
         {
             get
             {
@@ -47,7 +47,7 @@ namespace Windows.Devices.Spi
                     {
                         if (s_deviceCollection == null)
                         {
-                            s_deviceCollection = new Hashtable();
+                            s_deviceCollection = new ArrayList();
                         }
                     }
                 }
@@ -68,12 +68,11 @@ namespace Windows.Devices.Spi
             _controllerId = controller[3] - '0';
 
             // check if this controller is already opened
-            if (!SpiControllerManager.ControllersCollection.Contains(_controllerId))
+            var myController = FindController(_controllerId);
+            if (myController == null)
             {
-
-                // add controller to collection, with the ID as key 
-                // *** just the index number ***
-                SpiControllerManager.ControllersCollection.Add(_controllerId, this);
+                // add controller to collection 
+                SpiControllerManager.ControllersCollection.Add(this);
             }
             else
             {
@@ -97,10 +96,11 @@ namespace Windows.Devices.Spi
                 // need to grab 'n' from the string and convert that to the integer value from the ASCII code (do this by subtracting 48 from the char value)
                 var controllerId = controllers[0][3] - '0';
 
-                if (SpiControllerManager.ControllersCollection.Contains(controllerId))
+                var myController = FindController(controllerId);
+                if (myController != null)
                 {
                     // controller is already open
-                    return (SpiController)SpiControllerManager.ControllersCollection[controllerId];
+                    return myController;
                 }
                 else
                 {
@@ -122,6 +122,18 @@ namespace Windows.Devices.Spi
         {
             //TODO: fix return value. Should return an existing device (if any)
             return new SpiDevice(String.Empty, settings);
+        }
+        private static SpiController FindController(int index)
+        {
+            for (int i = 0; i < SpiControllerManager.ControllersCollection.Count; i++)
+            {
+                if (((SpiController)SpiControllerManager.ControllersCollection[i])._controllerId == index)
+                {
+                    return (SpiController)SpiControllerManager.ControllersCollection[i];
+                }
+            }
+
+            return null;
         }
 
         #region Native Calls
