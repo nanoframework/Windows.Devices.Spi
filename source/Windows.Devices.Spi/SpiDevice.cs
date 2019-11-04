@@ -41,21 +41,18 @@ namespace Windows.Devices.Spi
             var controllerId = spiBus[3] - '0';
             var deviceId = (controllerId * deviceUniqueIdMultiplier) + settings.ChipSelectLine;
 
-            SpiController controller;
+            SpiController controller = SpiController.FindController(controllerId);
 
-            if (!SpiControllerManager.ControllersCollection.Contains(controllerId))
+            if (controller == null)
             {
                 // this controller doesn't exist yet, create it...
                 controller = new SpiController(spiBus);
             }
-            else
-            {
-                // get the controller from the collection...
-                controller = (SpiController)SpiControllerManager.ControllersCollection[controllerId];
-            }
 
             // check if this device ID already exists
-            if (!controller.DeviceCollection.Contains(deviceId))
+            var device = FindDevice(controller, deviceId);
+
+            if (device == null)
             {
                 // device doesn't exist, create it...
                 _connectionSettings = new SpiConnectionSettings(settings);
@@ -67,7 +64,7 @@ namespace Windows.Devices.Spi
                 NativeInit();
 
                 // ... and add this device
-                controller.DeviceCollection.Add(deviceId, this);
+                controller.DeviceCollection.Add(this);
 
                 _syncLock = new object();
             }
@@ -251,19 +248,25 @@ namespace Windows.Devices.Spi
             {
                 if (disposing)
                 {
-                    // get the controller Id
-                    // it's enough to divide by the device unique id multiplier as we'll get the thousands digit, which is the controller ID
-                    var controller = (SpiController)SpiControllerManager.ControllersCollection[_deviceId / deviceUniqueIdMultiplier];
+                    // get the controller
+                    var controller = SpiController.FindController(_deviceId / deviceUniqueIdMultiplier);
 
-                    // remove from device collection
-                    controller.DeviceCollection.Remove(_deviceId);
-
-                    // it's OK to also remove the controller, if there is no other device associated
-                    if (controller.DeviceCollection.Count == 0)
+                    if (controller != null)
                     {
-                        SpiControllerManager.ControllersCollection.Remove(controller);
+                        // find device
+                        var device = FindDevice(controller, _deviceId);
 
-                        controller = null;
+                        if (device != null)
+                        {
+                            // remove from device collection
+                            controller.DeviceCollection.Remove(device);
+
+                            // it's OK to also remove the controller, if there is no other device associated
+                            if (controller.DeviceCollection.Count == 0)
+                            {
+                                SpiControllerManager.ControllersCollection.Remove(controller);
+                            }
+                        }
                     }
                 }
 
@@ -292,9 +295,22 @@ namespace Windows.Devices.Spi
             }
         }
 
-        #pragma warning restore 1591
+#pragma warning restore 1591
 
         #endregion
+
+        internal static SpiDevice FindDevice(SpiController controller, int index)
+        {
+            for (int i = 0; i < controller.DeviceCollection.Count; i++)
+            {
+                if (((SpiDevice)controller.DeviceCollection[i])._deviceId == index)
+                {
+                    return (SpiDevice)controller.DeviceCollection[i];
+                }
+            }
+
+            return null;
+        }
 
         #region Native Calls
 

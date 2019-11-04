@@ -123,7 +123,7 @@ namespace Windows.Devices.Spi
             //TODO: fix return value. Should return an existing device (if any)
             return new SpiDevice(String.Empty, settings);
         }
-        private static SpiController FindController(int index)
+        internal static SpiController FindController(int index)
         {
             for (int i = 0; i < SpiControllerManager.ControllersCollection.Count; i++)
             {
