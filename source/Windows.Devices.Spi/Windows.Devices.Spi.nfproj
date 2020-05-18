@@ -33,6 +33,9 @@
     <NF_GenerateSkeletonProjectName>win_dev_spi_native</NF_GenerateSkeletonProjectName>
   </PropertyGroup>
   <ItemGroup>
+    <NFMDP_PE_ExcludeClassByName Include="SpiSharingMode">
+      <InProject>false</InProject>
+    </NFMDP_PE_ExcludeClassByName>
     <NFMDP_PE_ExcludeClassByName Include="ThisAssembly">
       <InProject>false</InProject>
     </NFMDP_PE_ExcludeClassByName>
