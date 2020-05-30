@@ -120,8 +120,9 @@ namespace Windows.Devices.Spi
         /// <returns>The SPI device.</returns>
         public SpiDevice GetDevice(Spi​Connection​Settings settings)
         {
-            //TODO: fix return value. Should return an existing device (if any)
-            return new SpiDevice(String.Empty, settings);
+            //TODO: fix return value. Should return an existing device (if any), not really documented what it does
+            // ALthough examples seen just open device against current controller
+            return new SpiDevice($"SPI{_controllerId}", settings);
         }
         internal static SpiController FindController(int index)
         {

@@ -6,7 +6,7 @@
 [assembly: AssemblyTitle("Windows.Devices.Spi")]
 [assembly: AssemblyCompany("nanoFramework Contributors")]
 [assembly: AssemblyProduct("Windows.Devices.Spi")]
-[assembly: AssemblyCopyright("Copyright © nanoFramework Contributors 2017")]
+[assembly: AssemblyCopyright("Copyright © nanoFramework Contributors 2020")]
 
 ////////////////////////////////////////////////////////////////
 // update this whenever the native assembly signature changes //
