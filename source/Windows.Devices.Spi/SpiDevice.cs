@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (c) 2017 The nanoFramework project contributors
+// Copyright (c) 2020 The nanoFramework project contributors
 // See LICENSE file in the project root for full license information.
 //
 
@@ -24,9 +24,6 @@ namespace Windows.Devices.Spi
         private object _syncLock;
 
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-        private readonly string _spiBus;
-
-        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         private readonly int _deviceId;
 
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
@@ -42,64 +39,38 @@ namespace Windows.Devices.Spi
             var deviceId = (controllerId * deviceUniqueIdMultiplier) + settings.ChipSelectLine;
 
             SpiController controller = SpiController.FindController(controllerId);
-
             if (controller == null)
             {
                 // this controller doesn't exist yet, create it...
                 controller = new SpiController(spiBus);
             }
 
-
             try
             {
                 _connectionSettings = new SpiConnectionSettings(settings);
 
                 _deviceId = NativeOpenDevice(controllerId);
-
+            }
+            catch(NotSupportedException ex)
+            {
+                // NotSupportedException 
+                //   Device(chip select) already in use
+                throw new SpiDeviceAlreadyInUseException();
             }
             catch(Exception ex)
             {
+                // ArgumentException
+                //   Invalid port or unable to init bus
+                // IndexOutOfRangeException
+                //   Too many devices open or spi already in use
                 throw ex;
-                //TODO have different exceptions , invalid argunent or device in use, etc
-
-                //             // this device already exists, throw an exception
-               // throw new SpiDeviceAlreadyInUseException();
-
-                // or bus doesn't support any more devices
-
             }
-
 
             // device doesn't exist, create it...
             _connectionSettings = new SpiConnectionSettings(settings);
 
             _syncLock = new object();
 
-            //TODO  Need to call Natice to check if exists, maybe dispay etc already using it
-            // check if this device ID already exists
-            //var device = FindDevice(controller, deviceId);
-
-            //         if (device == null)
-            //         {
-            //             // device doesn't exist, create it...
-            //             _connectionSettings = new SpiConnectionSettings(settings);
-
-            //             // save device ID
-            //             _deviceId = deviceId;
-
-            //             // call native init to allow HAL/PAL inits related with Spi hardware
-            //             NativeInit();
-
-            //             // ... and add this device
-            //             controller.DeviceCollection.Add(this);
-
-            //             _syncLock = new object();
-            //         }
-            //         else
-            //         {
-            //             // this device already exists, throw an exception
-            //             throw new SpiDeviceAlreadyInUseException();
-            //         }
         }
 
         /// <summary>
@@ -273,33 +244,6 @@ namespace Windows.Devices.Spi
         {
             if (!_disposedValue)
             {
-                if (disposing)
-                {
-                    /*
-                // get the controller
-                var controller = SpiController.FindController(_deviceId / deviceUniqueIdMultiplier);
-
-                if (controller != null)
-                {
-
-                    // find device
-                    var device = FindDevice(controller, _deviceId);
-
-                    if (device != null)
-                    {
-                        // remove from device collection
-                        controller.DeviceCollection.Remove(device);
-
-                        // it's OK to also remove the controller, if there is no other device associated
-                        if (controller.DeviceCollection.Count == 0)
-                        {
-                            SpiControllerManager.ControllersCollection.Remove(controller);
-                        }
-                    }
-                }
-                    */
-                }
-
                 DisposeNative();
 
                 _disposedValue = true;
@@ -328,19 +272,6 @@ namespace Windows.Devices.Spi
 #pragma warning restore 1591
 
         #endregion
-
-        internal static SpiDevice FindDevice(SpiController controller, int index)
-        {
-            for (int i = 0; i < controller.DeviceCollection.Count; i++)
-            {
-                if (((SpiDevice)controller.DeviceCollection[i])._deviceId == index)
-                {
-                    return (SpiDevice)controller.DeviceCollection[i];
-                }
-            }
-
-            return null;
-        }
 
         #region Native Calls
 

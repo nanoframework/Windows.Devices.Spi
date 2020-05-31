@@ -1,5 +1,5 @@
 ﻿//
-// Copyright (c) 2017 The nanoFramework project contributors
+// Copyright (c) 2020 The nanoFramework project contributors
 // See LICENSE file in the project root for full license information.
 //
 
@@ -21,45 +21,6 @@ namespace Windows.Devices.Spi
 
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         private readonly int _controllerId;
-
-        // backing field for DeviceCollection
-        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-        private ArrayList s_deviceCollection;
-
-        /// <summary>
-        /// Device collection associated with this <see cref="SpiController"/>.
-        /// </summary>
-        /// <remarks>
-        /// This collection is for internal use only.
-        /// </remarks>
-        internal ArrayList DeviceCollection
-        {
-            get
-            {
-                if (s_deviceCollection == null)
-                {
-                    if (_syncLock == null)
-                    {
-                        _syncLock = new object();
-                    }
-
-                    lock (_syncLock)
-                    {
-                        if (s_deviceCollection == null)
-                        {
-                            s_deviceCollection = new ArrayList();
-                        }
-                    }
-                }
-
-                return s_deviceCollection;
-            }
-
-            set
-            {
-                s_deviceCollection = value;
-            }
-        }
 
         internal SpiController(string controller)
         {
@@ -121,7 +82,7 @@ namespace Windows.Devices.Spi
         public SpiDevice GetDevice(Spi​Connection​Settings settings)
         {
             //TODO: fix return value. Should return an existing device (if any), not really documented what it does
-            // ALthough examples seen just open device against current controller
+            // Although examples seen to just open device against current controller
             return new SpiDevice($"SPI{_controllerId}", settings);
         }
         internal static SpiController FindController(int index)
