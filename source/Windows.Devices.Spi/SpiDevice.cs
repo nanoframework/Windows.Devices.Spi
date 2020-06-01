@@ -36,7 +36,6 @@ namespace Windows.Devices.Spi
             // spiBus is an ASCII string with the bus name in format 'SPIn'
             // need to grab 'n' from the string and convert that to the integer value from the ASCII code (do this by subtracting 48 from the char value)
             var controllerId = spiBus[3] - '0';
-            var deviceId = (controllerId * deviceUniqueIdMultiplier) + settings.ChipSelectLine;
 
             SpiController controller = SpiController.FindController(controllerId);
             if (controller == null)
