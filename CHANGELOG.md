@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.3.0](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.3.0) (2020-06-11)
+
+[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.3.0-preview.21...v1.3.0)
+
+**Documentation and other chores:**
+
+- Release release-v1.3.0 [\#79](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/79)
+
 ## [v1.3.0-preview.21](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.3.0-preview.21) (2020-06-11)
 
 [Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.3.0-preview.19...v1.3.0-preview.21)
