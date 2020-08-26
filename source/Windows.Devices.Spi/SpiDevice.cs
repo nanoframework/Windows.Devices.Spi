@@ -18,30 +18,34 @@ namespace Windows.Devices.Spi
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         private const int deviceUniqueIdMultiplier = 1000;
 
-        // this is used as the lock object 
-        // a lock is required because multiple threads can access the device
-        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-        private object _syncLock;
-
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         private readonly int _deviceId;
 
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         private readonly Spi​Connection​Settings _connectionSettings;
 
-        internal SpiDevice(string spiBus, Spi​Connection​Settings settings)
+		[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+		private readonly SpiController _spiController;
+
+		// this is used as the lock object 
+		// a lock is required because multiple threads can access the device (Dispose)
+		[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+		private object _syncLock;
+
+		internal SpiDevice(string spiBus, Spi​Connection​Settings settings)
         {
-            // generate a unique ID for the device by joining the SPI bus ID and the chip select line, should be pretty unique
-            // the encoding is (SPI bus number x 1000 + chip select line number)
             // spiBus is an ASCII string with the bus name in format 'SPIn'
             // need to grab 'n' from the string and convert that to the integer value from the ASCII code (do this by subtracting 48 from the char value)
             var controllerId = spiBus[3] - '0';
 
-            SpiController controller = SpiController.FindController(controllerId);
-            if (controller == null)
+			// Save reference to SpiController for _syncLock on controller
+			// Each controller needs to restrict access from multiple threads
+			// this will also work for same device from multiple threads
+			_spiController = SpiController.FindController(controllerId);
+            if (_spiController == null)
             {
-                // this controller doesn't exist yet, create it...
-                controller = new SpiController(spiBus);
+				// this controller doesn't exist yet, create it...
+				_spiController = new SpiController(spiBus);
             }
 
             try
@@ -50,7 +54,7 @@ namespace Windows.Devices.Spi
 
                 _deviceId = NativeOpenDevice(controllerId);
             }
-            catch(NotSupportedException ex)
+            catch(NotSupportedException )
             {
                 // NotSupportedException 
                 //   Device(chip select) already in use
@@ -68,9 +72,8 @@ namespace Windows.Devices.Spi
             // device doesn't exist, create it...
             _connectionSettings = new SpiConnectionSettings(settings);
 
-            _syncLock = new object();
-
-        }
+			_syncLock = new object();
+		}
 
         /// <summary>
         /// Gets the connection settings for the device.
@@ -82,7 +85,7 @@ namespace Windows.Devices.Spi
         {
             get
             {
-                lock (_syncLock)
+                lock (_spiController._syncLock)
                 {
                     // check if device has been disposed
                     if (!_disposedValue)
@@ -106,7 +109,7 @@ namespace Windows.Devices.Spi
         {
             get
             {
-                lock (_syncLock)
+                lock (_spiController._syncLock)
                 {
                     // check if device has been disposed
                     if (!_disposedValue) { return _deviceId.ToString(); }
@@ -156,7 +159,10 @@ namespace Windows.Devices.Spi
         /// <param name="buffer">Array containing data read from the device.</param>
         public void Read(byte[] buffer)
         {
-            NativeTransfer(null, buffer, false);
+            lock (_spiController._syncLock)
+            {
+                NativeTransfer(null, buffer, false);
+            }
         }
 
         /// <summary>
@@ -165,7 +171,10 @@ namespace Windows.Devices.Spi
         /// <param name="buffer">Array containing data read from the device.</param>
         public void Read(ushort[] buffer)
         {
-            NativeTransfer(null, buffer, false);
+            lock (_spiController._syncLock)
+            {
+                NativeTransfer(null, buffer, false);
+            }
         }
 
         /// <summary>
@@ -175,7 +184,10 @@ namespace Windows.Devices.Spi
         /// <param name="readBuffer">Array containing data read from the device.</param>
         public void TransferFullDuplex(byte[] writeBuffer, byte[] readBuffer)
         {
-            NativeTransfer(writeBuffer, readBuffer, true);
+            lock (_spiController._syncLock)
+            {
+                NativeTransfer(writeBuffer, readBuffer, true);
+            }
         }
 
         /// <summary>
@@ -185,7 +197,10 @@ namespace Windows.Devices.Spi
         /// <param name="readBuffer">Array containing data read from the device.</param>
         public void TransferFullDuplex(ushort[] writeBuffer, ushort[] readBuffer)
         {
-            NativeTransfer(writeBuffer, readBuffer, true);
+            lock (_spiController._syncLock)
+            {
+                NativeTransfer(writeBuffer, readBuffer, true);
+            }
         }
 
         /// <summary>
@@ -195,7 +210,10 @@ namespace Windows.Devices.Spi
         /// <param name="readBuffer">Array containing data read from the device.</param>
         public void TransferSequential(byte[] writeBuffer, byte[] readBuffer)
         {
-            NativeTransfer(writeBuffer, readBuffer, false);
+            lock (_spiController._syncLock)
+            {
+                NativeTransfer(writeBuffer, readBuffer, false);
+            }
         }
 
         /// <summary>
@@ -205,7 +223,10 @@ namespace Windows.Devices.Spi
         /// <param name="readBuffer">Array containing data read from the device.</param>
         public void TransferSequential(ushort[] writeBuffer, ushort[] readBuffer)
         {
-            NativeTransfer(writeBuffer, readBuffer, false);
+            lock (_spiController._syncLock)
+            {
+                NativeTransfer(writeBuffer, readBuffer, false);
+            }
         }
 
         /// <summary>
@@ -214,7 +235,10 @@ namespace Windows.Devices.Spi
         /// <param name="buffer">Array containing the data to write to the device.</param>
         public void Write(byte[] buffer)
         {
-            NativeTransfer(buffer, null, false);
+            lock (_spiController._syncLock)
+            {
+                NativeTransfer(buffer, null, false);
+            }
         }
 
         /// <summary>
@@ -223,7 +247,10 @@ namespace Windows.Devices.Spi
         /// <param name="buffer">Array containing the data to write to the device.</param>
         public void Write(ushort[] buffer)
         {
-            NativeTransfer(buffer, null, false);
+            lock (_spiController._syncLock)
+            {
+                NativeTransfer(buffer, null, false);
+            }
         }
 
         /// <summary>

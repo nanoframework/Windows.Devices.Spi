@@ -15,9 +15,9 @@ namespace Windows.Devices.Spi
     public sealed class SpiController
     {
         // this is used as the lock object 
-        // a lock is required because multiple threads can access the SpiController
+        // a lock is required because multiple threads can access the SpiController/SpiDevice at same time
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-        private object _syncLock;
+        internal object _syncLock;
 
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         private readonly int _controllerId;
