@@ -119,14 +119,22 @@ namespace Windows.Devices.Spi
             }
         }
 
-        /// <summary>
-        /// Opens a device with the connection settings provided.
-        /// </summary>
-        /// <param name="busId">The id of the bus.</param>
-        /// <param name="settings">The connection settings.</param>
-        /// <returns>The SPI device requested.</returns>
-        /// <remarks>This method is specific to nanoFramework. The equivalent method in the UWP API is: FromIdAsync.</remarks>
-        public static SpiDevice FromId(string busId, Spi​Connection​Settings settings)
+		/// <summary>
+		/// Opens a device with the connection settings provided.
+		/// </summary>
+		/// <param name="busId">The id of the bus.</param>
+		/// <param name="settings">The connection settings.</param>
+		/// <returns>The SPI device requested.</returns>
+		/// <remarks>This method is specific to nanoFramework. The equivalent method in the UWP API is: FromIdAsync.</remarks>
+		/// <exception cref="System.NotSupportedException">
+		/// Thrown if the chip select pin is already in use</exception>
+		/// <exception cref="System.ArgumentOutOfRangeException">
+		/// Thrown if the maximum number of devices on SPI bus is reached</exception>
+		/// <exception cref="System.ArgumentException">
+		/// Thrown if invalid SPI bus</exception>
+		/// <exception cref="System.SystemException">
+		/// Thrown if GPIO pin already in use.</exception>
+		public static SpiDevice FromId(string busId, Spi​Connection​Settings settings)
         {
             //TODO: some sanity checks on busId
             return new SpiDevice(busId, settings);
