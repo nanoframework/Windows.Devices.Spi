@@ -32,8 +32,10 @@ namespace Windows.Devices.Spi
             var myController = FindController(_controllerId);
             if (myController == null)
             {
-                // add controller to collection 
-                SpiControllerManager.ControllersCollection.Add(this);
+				_syncLock = new object();
+
+				// add controller to collection 
+				SpiControllerManager.ControllersCollection.Add(this);
             }
             else
             {

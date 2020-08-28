@@ -24,35 +24,35 @@ namespace Windows.Devices.Spi
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         private readonly Spi​Connection​Settings _connectionSettings;
 
-		[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-		private readonly SpiController _spiController;
+        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+        private readonly SpiController _spiController;
 
-		// this is used as the lock object 
-		// a lock is required because multiple threads can access the device (Dispose)
-		[System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-		private object _syncLock;
+        // this is used as the lock object 
+        // a lock is required because multiple threads can access the device (Dispose)
+        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+        private object _syncLock;
 
-		internal SpiDevice(string spiBus, Spi​Connection​Settings settings)
+        internal SpiDevice(string spiBus, Spi​Connection​Settings settings)
         {
             // spiBus is an ASCII string with the bus name in format 'SPIn'
             // need to grab 'n' from the string and convert that to the integer value from the ASCII code (do this by subtracting 48 from the char value)
             var controllerId = spiBus[3] - '0';
 
-			// Save reference to SpiController for _syncLock on controller
-			// Each controller needs to restrict access from multiple threads
-			// this will also work for same device from multiple threads
-			_spiController = SpiController.FindController(controllerId);
+            // Save reference to SpiController for _syncLock on controller
+            // Each controller needs to restrict access from multiple threads
+            // this will also work for same device from multiple threads
+            _spiController = SpiController.FindController(controllerId);
             if (_spiController == null)
             {
-				// this controller doesn't exist yet, create it...
-				_spiController = new SpiController(spiBus);
+                // this controller doesn't exist yet, create it...
+                _spiController = new SpiController(spiBus);
             }
 
             try
             {
                 _connectionSettings = new SpiConnectionSettings(settings);
 
-                _deviceId = NativeOpenDevice(controllerId);
+                _deviceId = NativeOpenDevice();
             }
             catch(NotSupportedException )
             {
@@ -72,8 +72,8 @@ namespace Windows.Devices.Spi
             // device doesn't exist, create it...
             _connectionSettings = new SpiConnectionSettings(settings);
 
-			_syncLock = new object();
-		}
+            _syncLock = new object();
+        }
 
         /// <summary>
         /// Gets the connection settings for the device.
@@ -314,7 +314,7 @@ namespace Windows.Devices.Spi
         private extern void NativeInit();
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern Int32 NativeOpenDevice(int bus);
+        private extern Int32 NativeOpenDevice();
 
         #endregion
     }

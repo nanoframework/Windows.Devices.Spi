@@ -29,7 +29,7 @@ namespace Windows.Devices.Spi
         /// </value>
         public int ChipSelectLineCount
         {
-            get { return NativeChipSelectLineCount(_controllerId); }
+            get { return NativeChipSelectLineCount(); }
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Windows.Devices.Spi
         /// </value>
         public int MaxClockFrequency
         {
-            get { return NativeMaxClockFrequency(_controllerId); }
+            get { return NativeMaxClockFrequency(); }
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Windows.Devices.Spi
         /// </value>
         public int MinClockFrequency
         {
-            get { return NativeMinClockFrequency(_controllerId); }
+            get { return NativeMinClockFrequency(); }
         }
 
         /// <summary>
@@ -72,13 +72,13 @@ namespace Windows.Devices.Spi
 
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern int NativeChipSelectLineCount(int controllerId);
+        private extern int NativeChipSelectLineCount();
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern int NativeMaxClockFrequency(int controllerId);
+        private extern int NativeMaxClockFrequency();
 
         [MethodImpl(MethodImplOptions.InternalCall)]
-        private extern int NativeMinClockFrequency(int controllerId);
+        private extern int NativeMinClockFrequency();
 
 
         #endregion
