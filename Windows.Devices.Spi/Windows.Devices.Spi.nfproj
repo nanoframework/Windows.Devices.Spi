@@ -51,12 +51,12 @@
     <Compile Include="ISpiDeviceStatics.cs" />
     <Compile Include="DataBitOrder.cs" />
     <Compile Include="SpiControllerManager.cs" />
-    <Compile Include="SpiConnectionSettings.cs" />
     <Compile Include="SpiBusInfo.cs" />
     <Compile Include="SpiController.cs" />
     <Compile Include="SpiDevice.cs" />
     <Compile Include="SpiMode.cs" />
     <Compile Include="SpiSharingMode.cs" />
+    <Compile Include="Spi​Connection​Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="key.snk" />
