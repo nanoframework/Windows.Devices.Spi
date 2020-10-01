@@ -1,4 +1,4 @@
-﻿//
+//
 // Copyright (c) .NET Foundation and Contributors
 // See LICENSE file in the project root for full license information.
 //
@@ -12,13 +12,14 @@ namespace Windows.Devices.Spi
     /// </summary>
     public sealed class SpiBusInfo
     {
+        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+        private int _controllerId;
+
         internal SpiBusInfo(string spiBus)
         {
-            ChipSelectLineCount = 1;
-        }
+            _controllerId = spiBus[3] - '0';
 
-        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-        private int _chipSelectLineCount;
+        }
 
         /// <summary>
         /// Gets the number of chip select lines available on the bus.
@@ -28,8 +29,7 @@ namespace Windows.Devices.Spi
         /// </value>
         public int ChipSelectLineCount
         {
-            get { return _chipSelectLineCount; }
-            set { _chipSelectLineCount = value; }
+            get { return NativeChipSelectLineCount(); }
         }
 
         /// <summary>
@@ -38,10 +38,9 @@ namespace Windows.Devices.Spi
         /// <value>
         /// The clock cycle in Hz.
         /// </value>
-        public extern int MaxClockFrequency
+        public int MaxClockFrequency
         {
-            [MethodImpl(MethodImplOptions.InternalCall)]
-            get;
+            get { return NativeMaxClockFrequency(); }
         }
 
         /// <summary>
@@ -50,10 +49,9 @@ namespace Windows.Devices.Spi
         /// <value>
         /// The clock cycle in Hz.
         /// </value>
-        public extern int MinClockFrequency
+        public int MinClockFrequency
         {
-            [MethodImpl(MethodImplOptions.InternalCall)]
-            get;
+            get { return NativeMinClockFrequency(); }
         }
 
         /// <summary>
@@ -69,5 +67,24 @@ namespace Windows.Devices.Spi
                 return new[] {8, 16};
             }
         }
+
+        #region Native Calls
+
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern int NativeChipSelectLineCount();
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern int NativeMaxClockFrequency();
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern int NativeMinClockFrequency();
+
+
+        #endregion
+
+
+
+
     }
 }

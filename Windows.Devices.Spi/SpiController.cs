@@ -1,4 +1,4 @@
-﻿//
+//
 // Copyright (c) .NET Foundation and Contributors
 // See LICENSE file in the project root for full license information.
 //
@@ -15,51 +15,12 @@ namespace Windows.Devices.Spi
     public sealed class SpiController
     {
         // this is used as the lock object 
-        // a lock is required because multiple threads can access the SpiController
+        // a lock is required because multiple threads can access the SpiController/SpiDevice at same time
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-        private object _syncLock;
+        internal object _syncLock;
 
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         private readonly int _controllerId;
-
-        // backing field for DeviceCollection
-        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-        private ArrayList s_deviceCollection;
-
-        /// <summary>
-        /// Device collection associated with this <see cref="SpiController"/>.
-        /// </summary>
-        /// <remarks>
-        /// This collection is for internal use only.
-        /// </remarks>
-        internal ArrayList DeviceCollection
-        {
-            get
-            {
-                if (s_deviceCollection == null)
-                {
-                    if (_syncLock == null)
-                    {
-                        _syncLock = new object();
-                    }
-
-                    lock (_syncLock)
-                    {
-                        if (s_deviceCollection == null)
-                        {
-                            s_deviceCollection = new ArrayList();
-                        }
-                    }
-                }
-
-                return s_deviceCollection;
-            }
-
-            set
-            {
-                s_deviceCollection = value;
-            }
-        }
 
         internal SpiController(string controller)
         {
@@ -71,6 +32,8 @@ namespace Windows.Devices.Spi
             var myController = FindController(_controllerId);
             if (myController == null)
             {
+                _syncLock = new object();
+
                 // add controller to collection 
                 SpiControllerManager.ControllersCollection.Add(this);
             }
@@ -118,10 +81,19 @@ namespace Windows.Devices.Spi
         /// </summary>
         /// <param name="settings">The desired connection settings.</param>
         /// <returns>The SPI device.</returns>
+        /// <exception cref="System.NotSupportedException">
+        /// Thrown if the chip select pin is already in use</exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// Thrown if the maximum number of devices on SPI bus is reached</exception>
+        /// <exception cref="System.ArgumentException">
+        /// Thrown if invalid SPI bus</exception>
+        /// <exception cref="System.SystemException">
+        /// Thrown if GPIO pin already in use.</exception>
         public SpiDevice GetDevice(Spi​Connection​Settings settings)
         {
-            //TODO: fix return value. Should return an existing device (if any)
-            return new SpiDevice(String.Empty, settings);
+            //TODO: fix return value. Should return an existing device (if any), not really documented what it does
+            // Although examples seen to just open device against current controller
+            return new SpiDevice($"SPI{_controllerId}", settings);
         }
         internal static SpiController FindController(int index)
         {
