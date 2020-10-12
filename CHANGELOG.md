@@ -2,7 +2,15 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.4.1-preview.11...HEAD)
+[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.4.1-preview.13...HEAD)
+
+**Implemented enhancements:**
+
+- Protect ChipSelectLine value [\#85](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/85)
+
+## [v1.4.1-preview.13](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.4.1-preview.13) (2020-10-01)
+
+[Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.4.1-preview.11...v1.4.1-preview.13)
 
 **Implemented enhancements:**
 
@@ -311,7 +319,6 @@
 **Documentation and other chores:**
 
 - Bumps nanoFramework.CoreLibrary from 1.0.6-preview-001 to 1.0.6-preview-010 [\#29](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/29)
-- Bumps nanoFramework.CoreLibrary from 1.0.1-preview134 to 1.0.4 [\#21](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/21)
 
 ## [v1.0.2-preview-007](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.0.2-preview-007) (2018-11-09)
 
@@ -329,6 +336,7 @@
 
 - Bumps nanoFramework.CoreLibrary from 1.0.5-preview024 to 1.0.6-preview-001 [\#27](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/27)
 - Bumps nanoFramework.CoreLibrary from 1.0.4 to 1.0.5-preview024 [\#25](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/25)
+- Bumps nanoFramework.CoreLibrary from 1.0.1-preview134 to 1.0.4 [\#21](https://github.com/nanoframework/lib-Windows.Devices.Spi/pull/21)
 
 ## [v1.0.0](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.0.0) (2018-10-17)
 
