@@ -53,7 +53,7 @@ namespace Windows.Devices.Spi
         }
 
         /// <summary>
-        /// Gets or sets the chip select line for the connection to the SPI device.
+        /// Gets the chip select line for the connection to the SPI device.
         /// </summary>
         /// <value>
         /// The chip select line.
@@ -61,7 +61,6 @@ namespace Windows.Devices.Spi
         public int ChipSelectLine
         {
             get { return _csLine; }
-            set { _csLine = value; }
         }
 
         /// <summary>
