@@ -56,7 +56,7 @@
     <Compile Include="SpiDevice.cs" />
     <Compile Include="SpiMode.cs" />
     <Compile Include="SpiSharingMode.cs" />
-    <Compile Include="Spiâ€‹Connectionâ€‹Settings.cs" />
+    <Compile Include="SpiConnectionSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="key.snk" />
