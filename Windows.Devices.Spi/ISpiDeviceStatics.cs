@@ -16,7 +16,7 @@ namespace Windows.Devices.Spi
         /// <param name="busId">The id of the bus.</param>
         /// <param name="settings">The connection settings.</param>
         /// <returns>The SPI device.</returns>
-        SpiDevice FromId (string busId, Spi​Connection​Settings settings);
+        SpiDevice FromId (string busId, SpiConnectionSettings settings);
 
         /// <summary>
         /// Retrieves the info about a certain bus.

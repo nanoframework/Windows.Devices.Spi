@@ -89,7 +89,7 @@ namespace Windows.Devices.Spi
         /// Thrown if invalid SPI bus</exception>
         /// <exception cref="System.SystemException">
         /// Thrown if GPIO pin already in use.</exception>
-        public SpiDevice GetDevice(Spi​Connection​Settings settings)
+        public SpiDevice GetDevice(SpiConnectionSettings settings)
         {
             //TODO: fix return value. Should return an existing device (if any), not really documented what it does
             // Although examples seen to just open device against current controller

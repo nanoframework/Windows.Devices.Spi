@@ -22,7 +22,7 @@ namespace Windows.Devices.Spi
         private readonly int _deviceId;
 
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-        private readonly Spi​Connection​Settings _connectionSettings;
+        private readonly SpiConnectionSettings _connectionSettings;
 
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         private readonly SpiController _spiController;
@@ -32,7 +32,7 @@ namespace Windows.Devices.Spi
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         private object _syncLock;
 
-        internal SpiDevice(string spiBus, Spi​Connection​Settings settings)
+        internal SpiDevice(string spiBus, SpiConnectionSettings settings)
         {
             // spiBus is an ASCII string with the bus name in format 'SPIn'
             // need to grab 'n' from the string and convert that to the integer value from the ASCII code (do this by subtracting 48 from the char value)
@@ -81,7 +81,7 @@ namespace Windows.Devices.Spi
         /// <value>
         /// The connection settings.
         /// </value>
-        public Spi​Connection​Settings ConnectionSettings
+        public SpiConnectionSettings ConnectionSettings
         {
             get
             {
@@ -91,7 +91,7 @@ namespace Windows.Devices.Spi
                     if (!_disposedValue)
                     {
                         // need to return a copy so that the caller doesn't change the settings
-                        return new Spi​Connection​Settings(_connectionSettings);
+                        return new SpiConnectionSettings(_connectionSettings);
                     }
 
                     throw new ObjectDisposedException();
@@ -134,7 +134,7 @@ namespace Windows.Devices.Spi
 		/// Thrown if invalid SPI bus</exception>
 		/// <exception cref="System.SystemException">
 		/// Thrown if GPIO pin already in use.</exception>
-		public static SpiDevice FromId(string busId, Spi​Connection​Settings settings)
+		public static SpiDevice FromId(string busId, SpiConnectionSettings settings)
         {
             //TODO: some sanity checks on busId
             return new SpiDevice(busId, settings);
