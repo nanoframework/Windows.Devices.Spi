@@ -4,6 +4,10 @@
 
 -----
 
+## ⚠️ This library is now deprecated and has been replaced with [System.Device.Spi](https://github.com/nanoframework/System.Device.Spi). Please use that one instead. ⚠️
+
+-----
+
 ### Welcome to the **nanoFramework** Windows.Devices.Spi Library repository!
 
 ## Build status
