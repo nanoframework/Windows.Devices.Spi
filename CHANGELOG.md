@@ -1,6 +1,6 @@
 # Changelog
 
-## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/HEAD)
+## [v1.3.0](https://github.com/nanoframework/lib-Windows.Devices.Spi/tree/v1.3.0) (2020-06-11)
 
 [Full Changelog](https://github.com/nanoframework/lib-Windows.Devices.Spi/compare/v1.4.1-preview.31...HEAD)
 
