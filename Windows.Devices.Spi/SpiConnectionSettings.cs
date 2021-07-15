@@ -1,5 +1,5 @@
-﻿//
-// Copyright (c) 2017 The nanoFramework project contributors
+//
+// Copyright (c) .NET Foundation and Contributors
 // See LICENSE file in the project root for full license information.
 //
 
@@ -8,7 +8,7 @@ namespace Windows.Devices.Spi
     /// <summary>
     /// Represents the settings for the connection with a device.
     /// </summary>
-    public sealed class Spi​Connection​Settings
+    public sealed class SpiConnectionSettings
     {
         private int _csLine;
         /// <summary>
@@ -33,7 +33,7 @@ namespace Windows.Devices.Spi
         /// Initializes new instance of SpiConnectionSettings.
         /// </summary>
         /// <param name="chipSelectLine">The chip select line on which the connection will be made.</param>
-        public Spi​Connection​Settings(int chipSelectLine)
+        public SpiConnectionSettings(int chipSelectLine)
         {
             _csLine = chipSelectLine;
         }
@@ -42,7 +42,7 @@ namespace Windows.Devices.Spi
         /// Initializes a copy of a <see cref="SpiConnectionSettings"/> object.
         /// </summary>
         /// <param name="value">Object to copy from.</param>
-        internal Spi​Connection​Settings(Spi​Connection​Settings value)
+        internal SpiConnectionSettings(SpiConnectionSettings value)
         {
             _csLine = value._csLine;
             _clockFrequency = value._clockFrequency;
@@ -53,7 +53,7 @@ namespace Windows.Devices.Spi
         }
 
         /// <summary>
-        /// Gets or sets the chip select line for the connection to the SPI device.
+        /// Gets the chip select line for the connection to the SPI device.
         /// </summary>
         /// <value>
         /// The chip select line.
@@ -61,7 +61,6 @@ namespace Windows.Devices.Spi
         public int ChipSelectLine
         {
             get { return _csLine; }
-            set { _csLine = value; }
         }
 
         /// <summary>

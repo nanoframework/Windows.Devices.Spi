@@ -1,5 +1,5 @@
-﻿//
-// Copyright (c) 2017 The nanoFramework project contributors
+//
+// Copyright (c) .NET Foundation and Contributors
 // See LICENSE file in the project root for full license information.
 //
 
@@ -18,61 +18,61 @@ namespace Windows.Devices.Spi
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         private const int deviceUniqueIdMultiplier = 1000;
 
-        // this is used as the lock object 
-        // a lock is required because multiple threads can access the device
-        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-        private object _syncLock;
-
-        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-        private readonly string _spiBus;
-
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
         private readonly int _deviceId;
 
         [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
-        private readonly Spi​Connection​Settings _connectionSettings;
+        private readonly SpiConnectionSettings _connectionSettings;
 
-        internal SpiDevice(string spiBus, Spi​Connection​Settings settings)
+        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+        private readonly SpiController _spiController;
+
+        // this is used as the lock object 
+        // a lock is required because multiple threads can access the device (Dispose)
+        [System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)]
+        private object _syncLock;
+
+        internal SpiDevice(string spiBus, SpiConnectionSettings settings)
         {
-            // generate a unique ID for the device by joining the SPI bus ID and the chip select line, should be pretty unique
-            // the encoding is (SPI bus number x 1000 + chip select line number)
             // spiBus is an ASCII string with the bus name in format 'SPIn'
             // need to grab 'n' from the string and convert that to the integer value from the ASCII code (do this by subtracting 48 from the char value)
             var controllerId = spiBus[3] - '0';
-            var deviceId = (controllerId * deviceUniqueIdMultiplier) + settings.ChipSelectLine;
 
-            SpiController controller = SpiController.FindController(controllerId);
-
-            if (controller == null)
+            // Save reference to SpiController for _syncLock on controller
+            // Each controller needs to restrict access from multiple threads
+            // this will also work for same device from multiple threads
+            _spiController = SpiController.FindController(controllerId);
+            if (_spiController == null)
             {
                 // this controller doesn't exist yet, create it...
-                controller = new SpiController(spiBus);
+                _spiController = new SpiController(spiBus);
             }
 
-            // check if this device ID already exists
-            var device = FindDevice(controller, deviceId);
-
-            if (device == null)
+            try
             {
-                // device doesn't exist, create it...
                 _connectionSettings = new SpiConnectionSettings(settings);
 
-                // save device ID
-                _deviceId = deviceId;
-
-                // call native init to allow HAL/PAL inits related with Spi hardware
-                NativeInit();
-
-                // ... and add this device
-                controller.DeviceCollection.Add(this);
-
-                _syncLock = new object();
+                _deviceId = NativeOpenDevice();
             }
-            else
+            catch(NotSupportedException )
             {
-                // this device already exists, throw an exception
+                // NotSupportedException 
+                //   Device(chip select) already in use
                 throw new SpiDeviceAlreadyInUseException();
             }
+            catch(Exception ex)
+            {
+                // ArgumentException
+                //   Invalid port or unable to init bus
+                // IndexOutOfRangeException
+                //   Too many devices open or spi already in use
+                throw ex;
+            }
+
+            // device doesn't exist, create it...
+            _connectionSettings = new SpiConnectionSettings(settings);
+
+            _syncLock = new object();
         }
 
         /// <summary>
@@ -81,17 +81,17 @@ namespace Windows.Devices.Spi
         /// <value>
         /// The connection settings.
         /// </value>
-        public Spi​Connection​Settings ConnectionSettings
+        public SpiConnectionSettings ConnectionSettings
         {
             get
             {
-                lock (_syncLock)
+                lock (_spiController._syncLock)
                 {
                     // check if device has been disposed
                     if (!_disposedValue)
                     {
                         // need to return a copy so that the caller doesn't change the settings
-                        return new Spi​Connection​Settings(_connectionSettings);
+                        return new SpiConnectionSettings(_connectionSettings);
                     }
 
                     throw new ObjectDisposedException();
@@ -109,7 +109,7 @@ namespace Windows.Devices.Spi
         {
             get
             {
-                lock (_syncLock)
+                lock (_spiController._syncLock)
                 {
                     // check if device has been disposed
                     if (!_disposedValue) { return _deviceId.ToString(); }
@@ -119,14 +119,22 @@ namespace Windows.Devices.Spi
             }
         }
 
-        /// <summary>
-        /// Opens a device with the connection settings provided.
-        /// </summary>
-        /// <param name="busId">The id of the bus.</param>
-        /// <param name="settings">The connection settings.</param>
-        /// <returns>The SPI device requested.</returns>
-        /// <remarks>This method is specific to nanoFramework. The equivalent method in the UWP API is: FromIdAsync.</remarks>
-        public static SpiDevice FromId(string busId, Spi​Connection​Settings settings)
+		/// <summary>
+		/// Opens a device with the connection settings provided.
+		/// </summary>
+		/// <param name="busId">The id of the bus.</param>
+		/// <param name="settings">The connection settings.</param>
+		/// <returns>The SPI device requested.</returns>
+		/// <remarks>This method is specific to nanoFramework. The equivalent method in the UWP API is: FromIdAsync.</remarks>
+		/// <exception cref="System.NotSupportedException">
+		/// Thrown if the chip select pin is already in use</exception>
+		/// <exception cref="System.ArgumentOutOfRangeException">
+		/// Thrown if the maximum number of devices on SPI bus is reached</exception>
+		/// <exception cref="System.ArgumentException">
+		/// Thrown if invalid SPI bus</exception>
+		/// <exception cref="System.SystemException">
+		/// Thrown if GPIO pin already in use.</exception>
+		public static SpiDevice FromId(string busId, SpiConnectionSettings settings)
         {
             //TODO: some sanity checks on busId
             return new SpiDevice(busId, settings);
@@ -159,7 +167,10 @@ namespace Windows.Devices.Spi
         /// <param name="buffer">Array containing data read from the device.</param>
         public void Read(byte[] buffer)
         {
-            NativeTransfer(null, buffer, false);
+            lock (_spiController._syncLock)
+            {
+                NativeTransfer(null, buffer, false);
+            }
         }
 
         /// <summary>
@@ -168,7 +179,10 @@ namespace Windows.Devices.Spi
         /// <param name="buffer">Array containing data read from the device.</param>
         public void Read(ushort[] buffer)
         {
-            NativeTransfer(null, buffer, false);
+            lock (_spiController._syncLock)
+            {
+                NativeTransfer(null, buffer, false);
+            }
         }
 
         /// <summary>
@@ -178,7 +192,10 @@ namespace Windows.Devices.Spi
         /// <param name="readBuffer">Array containing data read from the device.</param>
         public void TransferFullDuplex(byte[] writeBuffer, byte[] readBuffer)
         {
-            NativeTransfer(writeBuffer, readBuffer, true);
+            lock (_spiController._syncLock)
+            {
+                NativeTransfer(writeBuffer, readBuffer, true);
+            }
         }
 
         /// <summary>
@@ -188,7 +205,10 @@ namespace Windows.Devices.Spi
         /// <param name="readBuffer">Array containing data read from the device.</param>
         public void TransferFullDuplex(ushort[] writeBuffer, ushort[] readBuffer)
         {
-            NativeTransfer(writeBuffer, readBuffer, true);
+            lock (_spiController._syncLock)
+            {
+                NativeTransfer(writeBuffer, readBuffer, true);
+            }
         }
 
         /// <summary>
@@ -198,7 +218,10 @@ namespace Windows.Devices.Spi
         /// <param name="readBuffer">Array containing data read from the device.</param>
         public void TransferSequential(byte[] writeBuffer, byte[] readBuffer)
         {
-            NativeTransfer(writeBuffer, readBuffer, false);
+            lock (_spiController._syncLock)
+            {
+                NativeTransfer(writeBuffer, readBuffer, false);
+            }
         }
 
         /// <summary>
@@ -208,7 +231,10 @@ namespace Windows.Devices.Spi
         /// <param name="readBuffer">Array containing data read from the device.</param>
         public void TransferSequential(ushort[] writeBuffer, ushort[] readBuffer)
         {
-            NativeTransfer(writeBuffer, readBuffer, false);
+            lock (_spiController._syncLock)
+            {
+                NativeTransfer(writeBuffer, readBuffer, false);
+            }
         }
 
         /// <summary>
@@ -217,7 +243,10 @@ namespace Windows.Devices.Spi
         /// <param name="buffer">Array containing the data to write to the device.</param>
         public void Write(byte[] buffer)
         {
-            NativeTransfer(buffer, null, false);
+            lock (_spiController._syncLock)
+            {
+                NativeTransfer(buffer, null, false);
+            }
         }
 
         /// <summary>
@@ -226,7 +255,10 @@ namespace Windows.Devices.Spi
         /// <param name="buffer">Array containing the data to write to the device.</param>
         public void Write(ushort[] buffer)
         {
-            NativeTransfer(buffer, null, false);
+            lock (_spiController._syncLock)
+            {
+                NativeTransfer(buffer, null, false);
+            }
         }
 
         /// <summary>
@@ -246,30 +278,6 @@ namespace Windows.Devices.Spi
         {
             if (!_disposedValue)
             {
-                if (disposing)
-                {
-                    // get the controller
-                    var controller = SpiController.FindController(_deviceId / deviceUniqueIdMultiplier);
-
-                    if (controller != null)
-                    {
-                        // find device
-                        var device = FindDevice(controller, _deviceId);
-
-                        if (device != null)
-                        {
-                            // remove from device collection
-                            controller.DeviceCollection.Remove(device);
-
-                            // it's OK to also remove the controller, if there is no other device associated
-                            if (controller.DeviceCollection.Count == 0)
-                            {
-                                SpiControllerManager.ControllersCollection.Remove(controller);
-                            }
-                        }
-                    }
-                }
-
                 DisposeNative();
 
                 _disposedValue = true;
@@ -299,19 +307,6 @@ namespace Windows.Devices.Spi
 
         #endregion
 
-        internal static SpiDevice FindDevice(SpiController controller, int index)
-        {
-            for (int i = 0; i < controller.DeviceCollection.Count; i++)
-            {
-                if (((SpiDevice)controller.DeviceCollection[i])._deviceId == index)
-                {
-                    return (SpiDevice)controller.DeviceCollection[i];
-                }
-            }
-
-            return null;
-        }
-
         #region Native Calls
 
         [MethodImpl(MethodImplOptions.InternalCall)]
@@ -325,6 +320,9 @@ namespace Windows.Devices.Spi
 
         [MethodImpl(MethodImplOptions.InternalCall)]
         private extern void NativeInit();
+
+        [MethodImpl(MethodImplOptions.InternalCall)]
+        private extern Int32 NativeOpenDevice();
 
         #endregion
     }
