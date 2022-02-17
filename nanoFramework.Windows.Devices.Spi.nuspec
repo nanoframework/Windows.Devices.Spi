@@ -4,8 +4,7 @@
     <id>nanoFramework.Windows.Devices.Spi</id>
     <version>$version$</version>
     <title>nanoFramework.Windows.Devices.Spi</title>
-    <authors>nanoFramework project contributors</authors>
-    <owners>nanoFramework project contributors</owners>
+    <authors>nanoframework</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">Apache-2.0</license>
     <releaseNotes>
@@ -15,8 +14,7 @@
     <iconUrl>https://secure.gravatar.com/avatar/97d0e092247f0716db6d4b47b7d1d1ad</iconUrl>
     <repository type="git" url="https://github.com/nanoframework/lib-Windows.Devices.Spi" commit="$commit$" />
     <copyright>Copyright (c) .NET Foundation and Contributors</copyright>
-    <description>This package includes the Windows.Devices.Spi assembly for nanoFramework C# projects.
-This package requires a target with Windows.Devices.Spi v$nativeVersion$.</description>
+    <description>This package includes the Windows.Devices.Spi assembly for nanoFramework C# projects.&#10;This package requires a target with Windows.Devices.Spi v$nativeVersion$.</description>
     <summary>Windows.Devices.Spi assembly for nanoFramework C# projects</summary>
     <tags>nanoFramework C# csharp netmf netnf Windows.Devices.Spi</tags>
     <dependencies>
