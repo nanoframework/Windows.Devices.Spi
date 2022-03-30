@@ -14,8 +14,7 @@
 
 | Component | Build Status | NuGet Package |
 |:-|---|---|
-| Windows.Devices.Spi | [![Build Status](https://dev.azure.com/nanoframework/Windows.Devices.Spi/_apis/build/status/nanoframework.lib-Windows.Devices.Spi?branchName=develop)](https://dev.azure.com/nanoframework/Windows.Devices.Spi/_build/latest?definitionId=7?branchName=master) | [![NuGet](https://img.shields.io/nuget/v/nanoFramework.Windows.Devices.Spi.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.Windows.Devices.Spi/) |
-| Windows.Devices.Spi (preview) | [![Build Status](https://dev.azure.com/nanoframework/Windows.Devices.Spi/_apis/build/status/nanoframework.lib-Windows.Devices.Spi?branchName=develop)](https://dev.azure.com/nanoframework/Windows.Devices.Spi/_build/latest?definitionId=7?branchName=develop) | [![](https://badgen.net/badge/NuGet/preview/D7B023?icon=https://simpleicons.now.sh/azuredevops/fff)](https://dev.azure.com/nanoframework/feed/_packaging?_a=package&feed=sandbox&package=nanoFramework.Windows.Devices.Spi&protocolType=NuGet&view=overview) |
+| Windows.Devices.Spi | [![Build Status](https://dev.azure.com/nanoframework/Windows.Devices.Spi/_apis/build/status/Windows.Devices.Spi?repoName=nanoframework%2FWindows.Devices.Spi&branchName=main)](https://dev.azure.com/nanoframework/Windows.Devices.Spi/_build/latest?definitionId=7&repoName=nanoframework%2FWindows.Devices.Spi&branchName=main) | [![NuGet](https://img.shields.io/nuget/v/nanoFramework.Windows.Devices.Spi.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.Windows.Devices.Spi/) |
 
 ## Feedback and documentation
 
